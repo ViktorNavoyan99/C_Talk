@@ -14,16 +14,12 @@ int main()
 {
 	int server_fd; //socket fd for server
 	int new_client;
-	int client_sockets[MAX_CLIENTS];
+	int client_sockets[MAX_CLIENTS] = {0};
 	struct sockaddr_in address;
 	socklen_t addrlen = sizeof(address);
 	char buffer[1024];
 	fd_set readfds;
 	
-	for(int i = 0; i < MAX_CLIENTS; i++)
-{
-	client_sockets[i]=0;
-}
 	// Create a socket for server
 	server_fd = socket(AF_INET, SOCK_STREAM, 0);
  	if(server_fd == 0)
@@ -56,10 +52,10 @@ int main()
 			FD_SET(fd, &readfds);
 		}
 		
-		else
-		{
-				break;
-		}
+		//else
+		//{
+		//		break;
+		//}
 		
 		if(fd > max_fd)
 		{
@@ -94,8 +90,8 @@ int main()
 			if(val == 0)
 			{
 				getpeername(fd, (struct sockaddr *)&address, &addrlen);
-				printf("Client disconnected: IP: %s", inet_ntoa(address.sin_addr));
-
+				printf("Client disconnected: IP: %s\n", inet_ntoa(address.sin_addr));
+//
 				close(fd);
 				client_sockets[i] = 0;
 			}
@@ -110,7 +106,7 @@ int main()
 					}
 				}
 			}
-		}
+		}	
 	}
 }
 
